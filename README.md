@@ -2,14 +2,15 @@
 
 # SIZE PREVIEWS MONITOR
 
-![enter image description here](https://lh3.googleusercontent.com/NmSsHcpRI1SBWC4Bq7sKMefur1M84zjG4QuV-T1sH_RlboR_h3ITQjRTfzm0P0O7q43wQnhKzcZ_Yg)
+![This is a shoe for toe](https://lh3.googleusercontent.com/NmSsHcpRI1SBWC4Bq7sKMefur1M84zjG4QuV-T1sH_RlboR_h3ITQjRTfzm0P0O7q43wQnhKzcZ_Yg)
 
 Simple monitor for size previews app with Slack/Discord integration.
 
 **Requires:**
 
  - Plucky `pip install plucky`
- - Requests `pip install requests`
+ - Requests `pip install Export as Markdown
+ Save plain text file.requests`
  
 
 **Instructions:**
@@ -27,7 +28,7 @@ Simple monitor for size previews app with Slack/Discord integration.
 
 **V1.0.4**
 - Updated Mobile headers
-- Removed requirements for API key
+~~- Removed requirements for API key~~
+- Yeah nah we still need that ^
 -  Added Proxy Support
-
-
+ 
