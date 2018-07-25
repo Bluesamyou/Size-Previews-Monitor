@@ -1,4 +1,6 @@
 {
-  "Webhook": "",
-  "Delay": "3"
+  "Webhook": "https://discordapp.com/api/webhooks/400878917558468610/a7SCSqSP9BdMJYPyQRkZ3ww-jUJGA6Ef_e03DKRzAuGAbTkK2NSnDil3SsLgSwhsN-Jk/slack",
+  "Delay": "3",
+  "testMode" : true,
+  "randomProxy" : false
 }

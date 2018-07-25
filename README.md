@@ -1,7 +1,8 @@
 ﻿
 
 # SIZE PREVIEWS MONITOR
-![enter image description here](https://lh3.googleusercontent.com/ro-CNci4JZIgV2SDbTZtbMLEawQVIYW9U9pbs_4KZj1rgWDdknV7n3otCmMvLhZKgGP0VYjKayBzAQ)
+
+![enter image description here](https://lh3.googleusercontent.com/NmSsHcpRI1SBWC4Bq7sKMefur1M84zjG4QuV-T1sH_RlboR_h3ITQjRTfzm0P0O7q43wQnhKzcZ_Yg)
 
 Simple monitor for size previews app with Slack/Discord integration.
 

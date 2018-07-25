@@ -3,24 +3,48 @@ import json
 from time import *
 import plucky
 import re
-from pybase.classes.logger import logger
+from classes.pybase.classes.logger import logger
 log = logger().log
+from classes.proxymanager import ProxyManager
+
 
 class Monitor:
     def __init__(self):
 
+
+
         with open("Config.json") as tsk:
             self.t  = json.load(tsk)
 
-        self.forever        = True
-        self.url            = "https://mosaic-platform.mesh.mx/stores/size/content?channel=iphone-mosaic"
-        self.webhook        = self.t["Webhook"]
-        self.session        = Session()
-        self.pidArray       = []
-        self.scrapeArray    = []
-        self.removepids     = []
-        self.sleep          = self.t["Delay"]
-        self.headers        ={"user-agent":"Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25"}
+
+        self.forever         = True
+        self.url             = "https://mosaic-platform.mesh.mx/stores/size/content?api_key=0ce5f6f477676d95569067180bc4d46d&channel=iphone-mosaic"
+        self.webhook         = self.t["Webhook"]
+        self.testMode        = self.t['testMode']
+        self.session         = Session()
+        self.pidArray        = []
+        self.scrapeArray     = []
+        self.removepids      = []
+        self.sleep           = self.t["Delay"]
+        self.headers         = {"user-agent":"Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25"}
+
+        proxy                = ProxyManager().get_next_proxy(self.t['randomProxy'])
+
+        if proxy == "":
+            log("No proxies added to list, using local IP \n", color='blue')
+        else:
+            log('[{}] adding proxy to task \n'.format(proxy), color='blue')
+
+
+
+            p = {
+                'http'  : 'http://{}'.format(proxy),
+                'https' : 'https://{}'.format(proxy)
+            }
+
+            self.session.proxies = p
+
+
 
         try:
 
@@ -37,47 +61,51 @@ class Monitor:
             self.pidArray.append(self.page[products]["ID"])
             print("- {}".format(self.page[products]["name"]))
 
-            # slackMessage = {
-            #     "attachments": [
-            #         {
-            #             "author_name": "New Item",
-            #             "fallback": "",
-            #             "title": "{}".format(self.page[products]["name"]),
-            #             "title_link": "https://size-mosaic-webapp.mesh.mx/#/product/{}".format(self.page[products]["ID"]),
-            #             "fields": [
-            #                 {
-            #                     "title": "PID:",
-            #                     "value": "{}".format(self.page[products]['ID']),
-            #                     "short": True
-            #                 },
-            #                 {
-            #                     "title": "Sizes:",
-            #                     "value": "{}".format(plucky.plucks(self.page[products]["options"], 'name')),
-            #                     "short": True
-            #                 },
-            #                 {
-            #                     "title": "Release Date",
-            #                     "value": "{}, {} GMT".format(self.page[products]['launchDate'].split("T")[0], re.search('T(.*):', self.page[products]["launchDate"]).group(1)),
-            #                     "short": False
-            #                 }
-            #             ],
-            #             "image_url": "{}".format(self.page[products]["mainImage"]["original"]),
-            #
-            #             "color": "#00FF00"
-            #         }]
-            #
-            # }
-            #
-            # self.session.post(
-            #     url=self.webhook,
-            #     data=json.dumps(slackMessage)
-            # )
+            if self.testMode == True and self.webhook != "":
 
+                slackMessage = {
+                    "attachments": [
+                        {
+                            "author_name": "New Item",
+                            "fallback": "",
+                            "title": "{}".format(self.page[products]["name"]),
+                            "title_link": "https://size-mosaic-webapp.mesh.mx/#/product/{}".format(self.page[products]["ID"]),
+                            "fields": [
+                                {
+                                    "title": "PID:",
+                                    "value": "{}".format(self.page[products]['ID']),
+                                    "short": True
+                                },
+                                {
+                                    "title": "Sizes:",
+                                    "value": "{}".format(plucky.plucks(self.page[products]["options"], 'name')),
+                                    "short": True
+                                },
+                                {
+                                    "title": "Release Date",
+                                    "value": "{}, {} GMT".format(self.page[products]['launchDate'].split("T")[0], re.search('T(.*):', self.page[products]["launchDate"]).group(1)),
+                                    "short": False
+                                }
+                            ],
+                            "image_url": "{}".format(self.page[products]["mainImage"]["original"]),
+
+                            "color": "#00FF00"
+                        }]
+
+                }
+
+                self.session.post(
+                    url=self.webhook,
+                    data=json.dumps(slackMessage)
+                )
 
 
         print("")
         print("Number of shoes on app: {}".format(len(self.pidArray)))
         print("")
+
+        if(self.testMode and self.webhook == ""):
+            log("Cannot run test mode", "info", nocolor="Please add a webhook")
 
 
         log("Monitor Started Succesfully", "success")
