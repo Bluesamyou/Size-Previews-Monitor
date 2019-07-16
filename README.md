@@ -1,6 +1,6 @@
 ﻿
 
-# SIZE PREVIEWS MONITOR
+# SIZE PREVIEWS MONITOR [OUTDATED]
 
 ![This is a shoe for toe](https://lh3.googleusercontent.com/NmSsHcpRI1SBWC4Bq7sKMefur1M84zjG4QuV-T1sH_RlboR_h3ITQjRTfzm0P0O7q43wQnhKzcZ_Yg)
 
